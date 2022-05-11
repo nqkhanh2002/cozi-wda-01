@@ -13,6 +13,7 @@ import Outbox from './components/outbox';
 import Editor from './components/editor';
 import Auth from './components/auth';
 import Reader from './components/reader';
+import Forgot from './components/forgot.password';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,7 +32,8 @@ function App() {
             <Route path='edit' element={<Editor />} />
             <Route path='auth' element={<Auth />} />
             <Route path='read' element={<Reader />} />
-            <Route path='*' element={<WorldMailbox />} />
+            <Route path='*' element={<WorldMailbox />} /> 
+            <Route path='forgot' element={<Forgot/>} />
           </Route>
         </Routes>
       </BrowserRouter>

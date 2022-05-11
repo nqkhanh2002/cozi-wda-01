@@ -93,13 +93,13 @@ export default function Auth() {
             <Button variant='filled' w='full' mt={8} colorScheme='blue' type='submit'>
                 {isSignIn ? 'Đăng nhập' : 'Tạo tài khoản'}
             </Button>
-
-            <Stack isInline justifyContent='space-between' alignItems='center'>
-                            <Box>
-                                <Checkbox>Lưu tài khoản</Checkbox>
-                            </Box>
-            </Stack>
-
+            {isSignIn && (
+                <Stack isInline justifyContent='space-between' alignItems='center'>
+                <Box>
+                    <Checkbox>Lưu tài khoản</Checkbox>
+                </Box>
+                </Stack>
+            )}
             {isSignIn ? (
                 <Text mt={4}>Chưa có tạo khoản? <Link color='blue' onClick={() => setIsSignIn(false)}>Tạo tài khoản</Link></Text>
             ) : (
@@ -110,8 +110,8 @@ export default function Auth() {
                 {isSignIn && (
                     <>
                         <Stack alignItems='center'>
-                            <Box>
-                                <Link color='blue'>Quên mật khẩu</Link>
+                            <Box mt={4}>
+                                <Link to={'/forgot.password'} color='blue'>Quên mật khẩu</Link>
                             </Box>
                         </Stack>
                     </>
