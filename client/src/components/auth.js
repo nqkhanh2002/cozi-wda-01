@@ -7,11 +7,15 @@ import {
     FormControl,
     FormLabel,
     Input,
+    Stack,
+    Checkbox,
+    InputRightElement,
+    InputGroup,
 } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../actions/auth';
-
+import '../App.css';
 export default function Auth() {
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData ] = useState({
@@ -20,7 +24,7 @@ export default function Auth() {
         password: '',
         confirmPassword: '',
     })
-
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const handleSubmit = (e) => {
@@ -41,16 +45,44 @@ export default function Auth() {
             <FormControl isRequired>
                 {!isSignIn && (
                     <>
+                    <h3>Đăng ký</h3>
+                    </>
+                )}
+                {isSignIn && (
+                    <>
+                    <h3>Đăng nhập</h3>
+                    </>
+                )}
+                {!isSignIn && (
+                    <>
                         <FormLabel htmlFor='name'>Tên người dùng</FormLabel>
-                        <Input name='name' id='name' onChange={handleChange}/>
+                        <Input placeholder="admin" name='name' id='name' onChange={handleChange}/>
                     </>
                 )}
 
                 <FormLabel htmlFor='email'>Email</FormLabel>
-                <Input name='email' id='email' type="email" onChange={handleChange} />
+                <Input placeholder='email@address.com' name='email' id='email' type="email" onChange={handleChange} />
                 <FormLabel htmlFor='password'>Mật khẩu</FormLabel>
-                <Input name='password' type='password' id='name' onChange={handleChange} />
-
+                <InputGroup>
+                <Input 
+                isRequired
+                placeholder='Mật khẩu' 
+                name='password' 
+                // type='password' 
+                type={showPassword ? 'text' : 'password'}
+                id='name' 
+                onChange={handleChange} />
+                <InputRightElement width="4.5rem">
+                    <Button 
+                    height="1.5rem" 
+                    size="sm"
+                    onClick={({ target }) => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? 'Ẩn' : 'Hiện'}
+                    </Button>
+                </InputRightElement>
+                </InputGroup>
+                
                 {!isSignIn && (
                     <>
                         <FormLabel htmlFor='confirmPassword'>Nhập lại mật khẩu</FormLabel>
@@ -61,11 +93,29 @@ export default function Auth() {
             <Button variant='filled' w='full' mt={8} colorScheme='blue' type='submit'>
                 {isSignIn ? 'Đăng nhập' : 'Tạo tài khoản'}
             </Button>
+
+            <Stack isInline justifyContent='space-between' alignItems='center'>
+                            <Box>
+                                <Checkbox>Lưu tài khoản</Checkbox>
+                            </Box>
+            </Stack>
+
             {isSignIn ? (
                 <Text mt={4}>Chưa có tạo khoản? <Link color='blue' onClick={() => setIsSignIn(false)}>Tạo tài khoản</Link></Text>
             ) : (
-                <Text mt={4}>Đã có tạo khoản? <Link color='blue' onClick={() => setIsSignIn(true)}>Đăng nhập</Link></Text>
-            )}
+                <Stack alignItems='center'>
+                    <Text mt={4}>Đã có tạo khoản? <Link color='blue' onClick={() => setIsSignIn(true)}>Đăng nhập</Link></Text>
+                </Stack>            
+                )}
+                {isSignIn && (
+                    <>
+                        <Stack alignItems='center'>
+                            <Box>
+                                <Link color='blue'>Quên mật khẩu</Link>
+                            </Box>
+                        </Stack>
+                    </>
+                )}
         </Box>
     )
 }
